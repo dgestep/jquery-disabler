@@ -208,6 +208,8 @@
 					this.readOnlyUseDefaults(containerId, false);
 				}
 				
+				this.options.disable = disabled;
+				
 				this._trigger("afterDisable", null, {
 					'containerId' : escapedId,
 					'disabledFlag' : disabled,
@@ -305,6 +307,8 @@
 			});
 			
 			this._processHiddenInputsOnReadOnly(escapedId, readOnlyFlag, hiddenInputs);
+
+			this.options.readonly = readOnlyFlag;
 			
 			// fire user event
 			this._trigger("afterReadOnly", null, {
