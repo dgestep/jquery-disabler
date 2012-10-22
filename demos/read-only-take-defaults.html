@@ -85,9 +85,8 @@
 		</tr>
 		</table>
 		<p>
-		<input name="btnSubmit" type="submit" value="Submit" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnSubmit" type="submit" value="Submit" class="no-ui" />&nbsp;&nbsp;&nbsp;&nbsp;
 		<input name="btnButton" type="button" value="Button" />&nbsp;&nbsp;&nbsp;&nbsp;
-		<input name="btnButtonNoUi" type="button" value="Button No jQuery UI" class="no-ui" />&nbsp;&nbsp;&nbsp;&nbsp;
 		<input name="btnReadOnly" type="button" value="Set Read Only" class="disabler-ignore-readonly" />&nbsp;&nbsp;&nbsp;&nbsp;
 		</p>
 		</div>
@@ -96,7 +95,7 @@
 	
 	<script type="text/javascript">
 	$(function() {
-		$(":button:not(.no-ui), :submit").button();	
+		$(":button:not(.no-ui), :submit:not(.no-ui)").button();	
 		$('input:text, select, textarea').addClass('ui-widget ui-widget-content ui-corner-all');
 		$('input[name="dtPicker"]').datepicker({
 			dateFormat: 'mm/dd/yy',
