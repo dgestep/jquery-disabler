@@ -26,7 +26,7 @@
 	var dataSavedEvents = "disabler-saved-events";
 	var dataReadOnlyDisplay = "data-disabler-read-only-display";
 	
-	$.widget("ui.disabler", {
+	$.widget("dtg.disabler", {
 		// default options
 		options: {
 			// supply true to disable the contents of the plugin; false to enable.
@@ -137,6 +137,8 @@
 		},
 		
 		_create : function() {
+			this._initOptions();
+			
 			if (this.options.disable) {
 				this._setOption("disable", this.options.disable);
 			}
@@ -145,7 +147,22 @@
 			}
 		},
 		
+		_initOptions : function() {
+			this.options.disable = this._ensureBoolean(this.options.disable);
+			this.options.readonly = this._ensureBoolean(this.options.readonly);
+		},
+		
+		_ensureBoolean : function(value) {
+			var bool = false;
+			if (this._isNotNullAndNotUndefined(value)) {
+				var flag = new String(value).toLowerCase();
+				bool = flag == "true";
+			}
+			return bool;
+		},
+		
 		_setOption: function( key, value ) {	
+			this._initOptions();
 			this.options[ key ] = value;
 			
 			var panelId = this.element.attr("id");
@@ -295,12 +312,13 @@
 					'useDefaults' : useDefaults,
 					'element' : plugin.element
 				});
-				if (!continueIteration || inp.hasClass(classDisablerIgnoreReadOnly)) {
+				if (!continueIteration) {
 					return true;
 				}
 				var inputDisabler = inp.data("disabler");
 				if (inputDisabler != undefined) {
-					// TODO this input has a disabler of it's own acting on it. What to do about this ?
+					// Ignore this input because it has a disabler of it's own acting on it. 
+					return true;
 				}
 				
 				plugin._doReadOnlyIteration(inp, readOnlyFlag, hiddenInputs, useDefaults);
@@ -365,6 +383,10 @@
 			inp.data(dataReadOnlyByDisabler, true);
 			
 			if (!useDefaults) {
+				if (inp.hasClass(classDisablerIgnoreReadOnly)) {
+					// marked to ignore
+					return;
+				}
 				if (inp.hasClass(classDisablerHideReadOnly)) {
 					// keep record of what is being hidden in order to unhide later
 					hiddenInputs.push(inp);
@@ -382,19 +404,15 @@
 				this._disableLink(inp);
 			} else if (type == "submit" || type=="button") {
 				inp.attr("disabled", "true");
-				inp.addClass(classDisabled);
 			} else if (type == "select" || type=="checkbox" || type=="radio") {
 				this._disableEvents(inp);
 				inp.attr("disabled", "true");
-				inp.addClass(classDisabled);
 			} else if (inp.hasClass("hasDatepicker") || inp.hasClass(classPanelsDatePicker)) {
 				inp.attr("disabled", "true");
-				inp.addClass(classDisabled);
 				inp.datepicker("disable");
 			} else if (type == "text" || type == "textarea") {
 				inp.attr("readonly", "readonly");
 				inp.attr("disabled", "true");
-				inp.addClass(classDisabled);
 			} else {
 				this._disableEvents(inp);
 			}
@@ -473,19 +491,15 @@
 				this._enableLink(inp);
 			} else if (type == "submit" || type=="button") {
 				inp.removeAttr("disabled");
-				inp.removeClass(classDisabled);
 			} else if (type == "select" || type=="checkbox" || type=="radio") {
 				this._enableEvents(inp);
 				inp.removeAttr("disabled");
-				inp.removeClass(classDisabled);
 			} else if (inp.hasClass("hasDatepicker") || inp.hasClass(classPanelsDatePicker)) {
 				inp.removeAttr("disabled");
-				inp.removeClass(classDisabled);
 				inp.datepicker("enable");
 			} else if (type == "text" || type == "textarea") {
 				inp.removeAttr("readonly");
 				inp.removeAttr("disabled");
-				inp.removeClass(classDisabled);
 			} else {
 				this._enableEvents(inp);
 			}
@@ -666,7 +680,7 @@
 		},
 	});
 	
-	$.extend( $.ui.disabler, {
+	$.extend( $.dtg.disabler, {
 		version: "1.0.0"
 	});
 }(jQuery));
