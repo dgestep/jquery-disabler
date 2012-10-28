@@ -1,0 +1,168 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>Disable / Enable</title> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" >	
+		<link rel="stylesheet" type="text/css" href="./css/demo.css"> 
+		<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.20.custom.css"> 
+		
+		<script src="./script/jquery-1.7.1.min.js"></script>
+		<script src="./script/jquery-ui-1.8.20.custom.min.js"></script>	
+		<script src="./script/jquery-ui-disabler-1.0.0.js"></script>
+	</head>
+	 	
+	<body>
+	<form id="frmData" action="#">
+		<h1>Disabler on Individual Elements</h1>
+		<p>
+		You can assign a disabler widget directly on the element you want to disable.  The disabler plugin will act directly on the element
+		and attempt to disable any child elements under the top element.
+		</p>
+		<p>
+		If the element that the disabler widget is initiated on does not have an ID attribute with positive length value, 
+		then the element will be ignored by the disabler widget.  The labels in front of the input controls have ID's.  The
+		labels beside the checkboxes and radio buttons do not.  Disabling the labels will not disable the labels without ID's.
+		</p>
+		<div id="myData" class="tabular-data linear-form">
+		<table>
+		<tr>
+			<th><label id="lblMessage" for="message">Message Text</label></th>
+			<td><input id="message" type="text" name="myText" size="20" value="Have a nice day!"/></td>
+		</tr>
+		<tr>
+			<th><label id="lblNumberChoice" for="numberChoice">Number</label></th>
+			<td>
+				<select id="numberChoice" name="numberChoice">
+				<option value="">-- Pick a Number --</option>
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				<option value="3">Three</option>
+				<option value="4">Four</option>
+				<option value="5">Five</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><label id="lblFavoriteSport">Favorite Sport</label></th>
+			<td>
+			<input type="checkbox" id="cbxFootball" name="cbxFootball" checked="checked" /><label for="cbxFootball">Football</label>			
+			<input type="checkbox" id="cbxBasketball" name="cbxBasketball" /><label for="cbxBasketBall">Basketball</label>
+			</td>
+		</tr>
+		<tr>
+			<th><label id="lblHappy">Happy?</label></th>
+			<td>
+			<input type="radio" id="myRadioYes" name="myRadio" checked="checked" /><label for="myRadioYes">Yes</label><br />
+			<input type="radio" id="myRadioNo" name="myRadio" /><label for="myRadioNo">No</label>
+			</td>
+		</tr>
+		<tr>
+			<th><label id="lblDtPicker" for="dtPicker">Game Date DatePicker</label></th>
+			<td>
+				<input type="text" id="dtPicker" name="dtPicker" size="11" value="10/27/2012" />
+			</td>
+		</tr>
+		<tr>
+			<th><label id="lblMyTextArea" for="myTextArea">Comment</label></th>
+			<td>
+			<textarea id="myTextArea" name="myTextArea" rows="5" cols="50">I have something to say!</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+			<a id="google" href="http://www.google.com" target="_goog">Google</a>
+			</td>
+		</tr>
+		</table>
+		<p>
+		<input name="btnText" type="button" value="Disable Text" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnSelect" type="button" value="Disable Select" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnCheckbox" type="button" value="Disable Checkbox" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnRadio" type="button" value="Disable Radio Buttons" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnDatePicker" type="button" value="Disable DatePicker" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnTextArea" type="button" value="Disable TextArea" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnAnchor" type="button" value="Disable Anchor" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnLabel" type="button" value="Disable Labels" />&nbsp;&nbsp;&nbsp;&nbsp;
+		</p>
+		</div>
+		</form>	
+	</body>
+	<div id="ui-dialog-message"></div>
+	
+	<script type="text/javascript">
+	$(function() {
+		$('input:text, select, textarea').addClass('ui-widget ui-widget-content ui-corner-all');
+		$('input[name="dtPicker"]').datepicker({
+			dateFormat: 'mm/dd/yy',
+			numberOfMonths: 1,
+			showButtonPanel: true,
+			changeYear: true,
+			yearRange: '2000:cnnnn'
+		});
+		
+		$("input:button").button();
+		
+		var text = $("input#message").disabler();
+		var select = $("select").disabler();
+		var checkbox = $("input:checkbox").disabler();
+		var radio = $("input:radio").disabler();
+		var datepicker = $("input#dtPicker").disabler();
+		var textarea = $("#myTextArea").disabler();
+		var anchor = $("a#google").disabler();
+		var labels = $("label").disabler();
+		
+		var disableElement = function(element, btn, btnText) {
+			var currentDisabled = element.disabler("option", "disable");
+			if (currentDisabled) {
+				btn.button("option", "label", "Disable " + btnText);
+				element.disabler("enable");
+			} else {
+				btn.button("option", "label", "Enable " + btnText);
+				element.disabler("disable");
+			}
+		};
+		
+		$("input[name='btnText']").on("click", function(e) {
+			e.preventDefault();
+			disableElement(text, $(this), "Text");
+		});
+		
+		$("input[name='btnSelect']").on("click", function(e) {
+			e.preventDefault();
+			disableElement(select, $(this), "Select");
+		});
+		
+		$("input[name='btnCheckbox']").on("click", function(e) {
+			e.preventDefault();
+			disableElement(checkbox, $(this), "Checkbox");
+		});
+		
+		$("input[name='btnRadio']").on("click", function(e) {
+			e.preventDefault();
+			disableElement(radio, $(this), "Radio Buttons");
+		});
+		
+		$("input[name='btnDatePicker']").on("click", function(e) {
+			e.preventDefault();
+			disableElement(datepicker, $(this), "DatePicker");
+		});
+		
+		$("input[name='btnTextArea']").on("click", function(e) {
+			e.preventDefault();
+			disableElement(textarea, $(this), "TextArea");
+		});
+		
+		$("input[name='btnAnchor']").on("click", function(e) {
+			e.preventDefault();
+			disableElement(anchor, $(this), "Anchor");
+		});
+		
+		$("input[name='btnLabel']").on("click", function(e) {
+			e.preventDefault();
+			disableElement(labels, $(this), "Labels");
+		});
+	});
+	</script>
+</html>

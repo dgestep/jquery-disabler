@@ -2,19 +2,17 @@ body {
 	margin: 0px;
 }
 input, select, textarea {
-	padding: 4px;
+	padding: 6px;
 }
 option {
-	margin-left: 5px;
-	margin-right: 2px;
-}
-
+	padding: 5px;
+},
 .no-space-tabular table {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-.no-space-tabular table tr td {
+.no-space-tabular table tr td, .no-space-tabular table tr th {
 	text-align: left;
 	vertical-align: top;
 	border-spacing: 0,0,0,0;
@@ -70,6 +68,7 @@ div.left-all {
 	height: auto;
 }
 div.left {
+	display: inline;
 	float: left;
 }
 div.right-all{

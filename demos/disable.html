@@ -1,0 +1,162 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>Disable / Enable</title> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" >	
+		<link rel="stylesheet" type="text/css" href="./css/demo.css"> 
+		<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.20.custom.css"> 
+		
+		<script src="./script/jquery-1.7.1.min.js"></script>
+		<script src="./script/jquery-ui-1.8.20.custom.min.js"></script>	
+		<script src="./script/jquery-ui-disabler-1.0.0.js"></script>
+	</head>
+	 	
+	<body>
+	<form id="frmData" action="#">
+		<h1>Disable / Enable Elements</h1>
+		<p>
+		 Sets visible elements contained with a container to read-only, disables buttons, and unbinds all events (including links).  Setting a container to 
+		 disabled ignores requests to hide elements as well as show text only.  Click the "Disable" button to see it in action.
+		</p>
+		<p>
+		Disabler still honors requests to make specified elements ignore a read-only request.  The Disable button has the class <i>disabler-ignore-readonly</i>
+		associated to it. This tells the disabler plugin to skip that element when disabling the contents.
+		</p>
+		<div id="myData" class="tabular-data linear-form">
+		<table>
+		<tr>
+			<th><label for="message">Message</label></th>
+			<td><input id="message" type="text" name="myText" size="20" value="Have a nice day!"/></td>
+		</tr>
+		<tr>
+			<th><label for="numberChoice">Number</label></th>
+			<td>
+				<select id="numberChoice" name="numberChoice">
+				<option value="">-- Pick a Number --</option>
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				<option value="3">Three</option>
+				<option value="4">Four</option>
+				<option value="5">Five</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="numberChoiceMultiple">Number (Multiple)</label></th>
+			<td>
+				<select id="numberChoiceMultiple" name="numberChoiceMultiple" multiple="multiple" size="6" style="min-width: 85px">
+				<option value="">-- Pick a Number --</option>
+				<option value="1" selected="selected">One</option>
+				<option value="2">Two</option>
+				<option value="3" selected="selected">Three</option>
+				<option value="4">Four</option>
+				<option value="5" selected="selected">Five</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><label>Favorite Sport</label></th>
+			<td>
+			<input type="checkbox" id="cbxFootball" name="cbxFootball" checked="checked" /><label for="cbxFootball">Football</label>			
+			<input type="checkbox" id="cbxBasketball" name="cbxBasketball" /><label for="cbxBasketBall">Basketball</label>
+			</td>
+		</tr>
+		<tr>
+			<th><label>Happy?</label></th>
+			<td>
+			<input type="radio" id="myRadioYes" name="myRadio" checked="checked" /><label for="myRadioYes">Yes</label><br />
+			<input type="radio" id="myRadioNo" name="myRadio" /><label for="myRadioNo">No</label>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="dtPicker">Game Date</label></th>
+			<td>
+				<input type="text" id="dtPicker" name="dtPicker" size="11" value="10/27/2012" />
+			</td>
+		</tr>
+		<tr>
+			<th><label for="myTextArea">Comment</label></th>
+			<td>
+			<textarea id="myTextArea" name="myTextArea" rows="5" cols="50">I have something to say!</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+			<a href="http://www.google.com" target="_goog">Google</a>
+			</td>
+		</tr>
+		</table>
+		<p>
+		<input name="btnSubmit" type="submit" value="Submit" class="no-ui" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnButton" type="button" value="Button" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<button name="btnSearch" value="Search">Search</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnDisable" type="button" value="Disable" class="disabler-ignore-readonly" />&nbsp;&nbsp;&nbsp;&nbsp;
+		</p>
+		</div>
+		</form>	
+	</body>
+	<div id="ui-dialog-message"></div>
+	
+	<script type="text/javascript">
+	$(function() {
+		$(":button:not(.no-ui), :submit:not(.no-ui)").button();	
+		$('input:text, select, textarea').addClass('ui-widget ui-widget-content ui-corner-all');
+		$('input[name="dtPicker"]').datepicker({
+			dateFormat: 'mm/dd/yy',
+			numberOfMonths: 1,
+			showButtonPanel: true,
+			changeYear: true,
+			yearRange: '2000:cnnnn'
+		});
+		
+		$("div#ui-dialog-message").dialog({
+			autoOpen : false,
+			closeOnEscape : true,
+			modal : true,
+			resizable : true,
+			title : "Demo's are fun!",
+			zIndex : 1000,
+			buttons : { Ok : function() {
+				$(this).dialog("close");
+			}}
+		});
+		
+		var myData = $("div#myData").disabler();
+		
+		$("input[name='btnButton']").on("click", function(e) {
+			e.preventDefault();
+			
+			$("div#ui-dialog-message").html("May the force be with you!");
+			$("div#ui-dialog-message").dialog("open");
+		});
+		
+		$("button[name='btnSearch']").on("click", function(e) {
+			e.preventDefault();
+			
+			$("div#ui-dialog-message").html("\"Do!  Or do not!  There is no try.\" -- Yoda");
+			$("div#ui-dialog-message").dialog("open");
+		});
+		
+		$("input:submit").on("click", function(e) {
+			e.preventDefault();
+			
+			alert("I think jQuery UI Dialog's look better. Don't you?")
+		});
+		
+		$("input[name='btnDisable']").on("click", function(e) {
+			e.preventDefault();
+			
+			var currentDisabled = myData.disabler("option", "disable");
+			if (currentDisabled) {
+				$(this).button("option", "label", "Disable");
+				myData.disabler("enable");
+			} else {
+				$(this).button("option", "label", "Enable");
+				myData.disabler("disable");
+			}
+		});
+	});
+	</script>
+</html>

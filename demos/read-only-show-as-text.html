@@ -1,0 +1,188 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>Read Only Show as Text</title> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" >	
+		<link rel="stylesheet" type="text/css" href="./css/demo.css"> 
+		<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.20.custom.css"> 
+		
+		<script src="./script/jquery-1.7.1.min.js"></script>
+		<script src="./script/jquery-ui-1.8.20.custom.min.js"></script>	
+		<script src="./script/jquery-ui-disabler-1.0.0.js"></script>
+	</head>
+	 	
+	<body>
+	<form id="frmData" action="#">
+		<h1>Read Only - Show as Text</h1>
+		<p>
+		 Sets the elements contained with a container to read-only and shows their values as text.  This
+		 disabler excludes disabling labels by adding the value, <code>*:not(label)</code> to the 
+		 <i>selectorExpression</i> option.  By default, the disabler plugin already adds 
+		 <code>:not(.disabler-ignore-readonly)</code> to the selector to not select elements set to be ignored. 
+		 If you override the selector, be sure to include the default selector.  Doing so helps performance.  
+		 For example the selector expression, <code>*:not(.disabler-ignore-readonly):not(label)</code>, tells
+		 the disabler plugin to examine all elements except those that have the CSS class "disabler-ignore-readonly" 
+		 associated to it and all Label elements.
+		 </p>
+		 <p>
+		 To indicate that you want an element to display its value as text when set to read-only, add the class 
+		 <i>disabler-show-text-readonly</i> to the element. To specify a specific value to be displayed when 
+		 the <i>disabler-show-text-readonly</i> is set, add the data attribute <i>data-disabler-read-only-display</i> on 
+		 the element with desired display value.  For example, the SELECT boxes, radio buttons, and check boxes on this 
+		 page have the <i>data-disabler-read-only-display</i> attribute associated with them to indicate the text to 
+		 display instead of using the actual value of the control.
+		 </p>
+		 <p>
+		 This demo assigns the <i>disabler-hide-readonly</i> class to some controls to indicate that you want the disabler
+		 to hide the control when set to read-only.
+		 </p>
+		 <p>
+		 Click the "Set Read Only" button to see it in action.  View the source of this page to see the code.
+		</p>
+		<div id="myData" class="tabular-data linear-form">
+		<table>
+		<tr>
+			<th><label for="message">Message</label></th>
+			<td><input type="text" id="myText" name="myText" size="20" class="disabler-show-text-readonly" value="Have a nice day!"/></td>
+		</tr>
+		<tr>
+			<th><label for="numberChoice">Number</label></th>
+			<td>
+				<select id="numberChoice" name="numberChoice" class="disabler-show-text-readonly">
+				<option value="" data-disabler-read-only-display="">--Pick a Number--</option>
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				<option value="3">Three</option>
+				<option value="4">Four</option>
+				<option value="5">Five</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="numberChoiceMultiple">Number (Multiple)</label></th>
+			<td>
+				<select id="numberChoiceMultiple" name="numberChoiceMultiple" multiple="multiple" size="6" style="min-width: 85px" class="disabler-show-text-readonly">
+				<option value="" data-disabler-read-only-display="">-- Pick a Number --</option>
+				<option value="1" selected="selected">One</option>
+				<option value="2">Two</option>
+				<option value="3" selected="selected">Three</option>
+				<option value="4">Four</option>
+				<option value="5" selected="selected">Five</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><label>Favorite Sport</label></th>
+			<td>
+			<input type="checkbox" id="cbxFootball" name="cbxFootball" checked="checked" class="disabler-show-text-readonly" data-disabler-read-only-display="Football<br />"/>
+				<span class="disabler-hide-readonly"><label for="cbxFootball">Football</label><br /></span>
+			
+			<input type="checkbox" id="cbxFootball" name="cbxBasketball" class="disabler-show-text-readonly" data-disabler-read-only-display="Basketball<br />" />
+				<span class="disabler-hide-readonly"><label for="cbxBasketBall">Basketball</label></span>
+			</td>
+		</tr>
+		<tr>
+			<th><label>Happy?</label></th>
+			<td>
+			<input type="radio" id="myRadioYes" name="myRadio" checked="checked" class="disabler-show-text-readonly" data-disabler-read-only-display="Yes, I'm happy" />
+				<span class="disabler-hide-readonly"><label for="myRadioYes">Yes</label><br /></span>
+			<input type="radio" id="myRadioNo" name="myRadio" class="disabler-show-text-readonly" data-disabler-read-only-display="No, I'm not happy" />
+				<span class="disabler-hide-readonly"><label for="myRadioNo">No</label></span>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="dtPicker">Game Date</label></th>
+			<td>
+				<input type="text" id="dtPicker" name="dtPicker" size="11" value="10/27/2012" class="disabler-show-text-readonly" />
+			</td>
+		</tr>
+		<tr>
+			<th><label for="myTextArea">Comment</label></th>
+			<td>
+			<textarea id="myTextArea" name="myTextArea" rows="5" cols="50" class="disabler-show-text-readonly">I have something to say!</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+			<a href="http://www.google.com" target="_goog" class="disabler-show-text-readonly">This link will show as text when read only</a><br />
+			<a href="http://www.google.com" target="_goog" class="disabler-hide-readonly">This link will hide when read only</a><br />			
+			</td>
+		</tr>
+		</table>
+		<p>
+		<span class="disabler-hide-readonly">
+		<input name="btnSubmit" type="submit" value="Submit" class="no-ui" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input name="btnButton" type="button" value="Button" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<button name="btnSearch" value="Search">Search</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		</span>
+		<input name="btnReadOnly" type="button" value="Set Read Only" class="disabler-ignore-readonly" />&nbsp;&nbsp;&nbsp;&nbsp;
+		</p>
+		</div>
+		</form>	
+	</body>
+	<div id="ui-dialog-message"></div>
+	
+	<script type="text/javascript">
+	$(function() {
+		$(":button:not(.no-ui), :submit:not(.no-ui)").button();	
+		$('input:text, select, textarea').addClass('ui-widget ui-widget-content ui-corner-all');
+		$('input[name="dtPicker"]').datepicker({
+			dateFormat: 'mm/dd/yy',
+			numberOfMonths: 1,
+			showButtonPanel: true,
+			changeYear: true,
+			yearRange: '2000:cnnnn'
+		});
+		$("div#ui-dialog-message").dialog({
+			autoOpen : false,
+			closeOnEscape : true,
+			modal : true,
+			resizable : true,
+			title : "Demo's are fun!",
+			zIndex : 1000,
+			buttons : { Ok : function() {
+				$(this).dialog("close");
+			}}
+		});
+		
+		var myData = $("div#myData").disabler({
+			selectorExpression : "*:not(.disabler-ignore-readonly):not(label)"
+		});
+		
+		$("input[name='btnButton']").on("click", function(e) {
+			e.preventDefault();
+			
+			$("div#ui-dialog-message").html("May the force be with you!");
+			$("div#ui-dialog-message").dialog("open");
+		});
+		
+		$("button[name='btnSearch']").on("click", function(e) {
+			e.preventDefault();
+			
+			$("div#ui-dialog-message").html("\"Do!  Or do not!  There is no try.\" -- Yoda");
+			$("div#ui-dialog-message").dialog("open");
+		});
+		
+		$("input:submit").on("click", function(e) {
+			e.preventDefault();
+			
+			alert("I think jQuery UI Dialog's look better. Don't you?")
+		});
+		
+		$("input[name='btnReadOnly']").on("click", function(e) {
+			e.preventDefault();
+			
+			var currentReadOnly = myData.disabler("option", "readonly");
+			if (currentReadOnly) {
+				$(this).button("option", "label", "Set Read Only");
+				myData.disabler("readOnly", "myData", false);
+			} else {
+				$(this).button("option", "label", "Undo Read Only");
+				myData.disabler("readOnly", "myData", true);
+			}
+		});
+	});
+	</script>
+</html>
