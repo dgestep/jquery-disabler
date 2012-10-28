@@ -461,7 +461,6 @@
 			} else if (inp.data("menu") != undefined) {
 				inp.menu("disable");
 			} else if (inp.data("datapicker") || inp.hasClass(classPanelsDatePicker)) {
-				//inp.attr("disabled", "true");
 				inp.datepicker("disable");
 			} else if (type == "a") {
 				this._disableLink(inp);
