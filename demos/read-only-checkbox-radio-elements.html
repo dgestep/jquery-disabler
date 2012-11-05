@@ -17,7 +17,7 @@
 		<h1>Read Only - Checkbox or Radio Buttons Only</h1>
 		<p>
 		Sets only checkbox and radio button elements contained with a container to read-only and shows their values as text.
-		This is accomplished by overriding the <i>selectorExpression</i> option with <code>input:checkbox, input:radio</code>,
+		This is accomplished by overriding the <i>expression</i> option with <code>input:checkbox, input:radio</code>,
 		which selects only input elements that have a type of "checkbox" or "radio".  All other elements are not selected and,
 		as such, are ignored by the disabler plugin.
 		</p>
@@ -75,7 +75,7 @@
 			<input type="checkbox" id="cbxFootball" name="cbxFootball" checked="checked" class="disabler-show-text-readonly" data-disabler-read-only-display="Football<br />"/>
 				<span class="disabler-hide-readonly"><label for="cbxFootball">Football</label><br /></span>
 			
-			<input type="checkbox" id="cbxFootball" name="cbxBasketball" class="disabler-show-text-readonly" data-disabler-read-only-display="Basketball<br />" />
+			<input type="checkbox" id="cbxBasketball" name="cbxBasketball" class="disabler-show-text-readonly" data-disabler-read-only-display="Basketball<br />" />
 				<span class="disabler-hide-readonly"><label for="cbxBasketBall">Basketball</label></span>
 			</td>
 		</tr>
@@ -145,7 +145,7 @@
 		});
 		
 		var myData = $("div#myData").disabler({
-			selectorExpression : "input:checkbox, input:radio"
+			expression : "input:checkbox, input:radio"
 		});
 		
 		$("input[name='btnButton']").on("click", function(e) {

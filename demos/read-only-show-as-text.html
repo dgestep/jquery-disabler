@@ -18,7 +18,7 @@
 		<p>
 		 Sets the elements contained with a container to read-only and shows their values as text.  This
 		 disabler excludes disabling labels by adding the value, <code>*:not(label)</code> to the 
-		 <i>selectorExpression</i> option.  By default, the disabler plugin already adds 
+		 <i>expression</i> option.  By default, the disabler plugin already adds 
 		 <code>:not(.disabler-ignore-readonly)</code> to the selector to not select elements set to be ignored. 
 		 If you override the selector, be sure to include the default selector.  Doing so helps performance.  
 		 For example the selector expression, <code>*:not(.disabler-ignore-readonly):not(label)</code>, tells
@@ -148,7 +148,7 @@
 		});
 		
 		var myData = $("div#myData").disabler({
-			selectorExpression : "*:not(.disabler-ignore-readonly):not(label)"
+			expression : "*:not(.disabler-ignore-readonly):not(label)"
 		});
 		
 		$("input[name='btnButton']").on("click", function(e) {

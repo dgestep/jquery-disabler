@@ -4,13 +4,12 @@
  * Version 1.0.0
  * 
  * API Documention:
- *   http://dougestep.com/jquery-disabler/1/docs/api/
+ *   http://dougestep.com/jquery-disabler-widget 
  * 
  * Depends:
- *   jquery 1.7.2 +
+ *   jquery 1.7.1 +
  *   jquery-ui 1.8.20 using the following plugins.
  *     jQuery UI widget factory
- *     Datepicker
  */
 (function($, undefined) {
 	var classDisablerContainer = "hasDisabler";
@@ -35,7 +34,7 @@
 			// supply true to set all inputable columns within the plugin to read-only.
 			readonly : false,
 			// the selector expression to use to search through the descendants of each element in the DOM tree 
-			selectorExpression : "*:not(.disabler-ignore-readonly)",
+			expression : "*:not(.disabler-ignore-readonly)",
 			
 			/**
 			 * Event fired before the contents is disabled or enabled.
@@ -257,9 +256,9 @@
 		
 		/**
 		 * Enables the inputable columns within the supplied container.
-		 * @param containerId the ID representing the container to set to enable. Set to null or undefined to enable the entire 
-		 * container in which this plugin is acting against.  An exception will be thrown if this value is null or 
-		 * undefined and the container in which this plugin is acting against doesn't have an ID attribute with a value.
+		 * @param containerId the ID representing the container to enable. Set to null or undefined to enable the entire 
+		 * container in which this plugin is acting against.  If this value is null or undefined and the container in which this 
+		 * plugin is acting against doesn't have an ID attribute with a value then this method does nothing.
 		 */
 		enable : function(containerId) {
 			containerId = this._getId(containerId);
@@ -270,9 +269,9 @@
 		
 		/**
 		 * Disables the inputable columns within the supplied container.
-		 * @param containerId the ID representing the container to set to disable. Set to null or undefined to diable the entire 
-		 * container in which this plugin is acting against.  An exception will be thrown if this value is null or 
-		 * undefined and the container in which this plugin is acting against doesn't have an ID attribute with a value.
+		 * @param containerId the ID representing the container to disable. Set to null or undefined to disable the entire 
+		 * container in which this plugin is acting against.  If this value is null or undefined and the container in which this 
+		 * plugin is acting against doesn't have an ID attribute with a value then this method does nothing.
 		 */
 		disable : function(containerId) {
 			containerId = this._getId(containerId);
@@ -312,7 +311,7 @@
 		
 		/**
 		 * Sets the inputable columns contained with the supplied container to read-only, disables buttons, and unbinds all events.
-		 * Warning: this method can be expensive for very busy panels because it has to traverse the entire DOM to unbind all
+		 * Warning: this method can be expensive for very busy containers because it has to traverse the entire DOM to unbind all
 		 * events. Use with caution.
 		 * @param containerId the ID representing the container to set to read-only. Set to null or undefined to set the entire 
 		 * container in which this plugin is acting against to read-only.  An exception will be thrown if this value is null or 
@@ -354,7 +353,7 @@
 			this._doReadOnlyIteration(topElement, readOnlyFlag, hiddenInputs, disabling);
 			
 			var plugin = this;
-			var selector = this.options.selectorExpression 
+			var selector = this.options.expression 
 				+ ", span." + classReadOnlyText
 				+ ", ." + classDisablerHideReadOnly;			
 			topElement.find(selector).each(function(index) {
@@ -434,12 +433,14 @@
 			if (!disabling) {
 				if (inp.hasClass(classDisablerHideReadOnly)) {
 					// keep record of what is being hidden in order to unhide later
+					this._disableEvents(inp);
 					hiddenInputs.push(inp);
 					inp.hide();
 					return;
 				}
 				
 				if (inp.hasClass(classDisablerShowTextReadOnly)) {
+					this._disableEvents(inp);
 					this._showTextReadOnly(inp, type);
 					return;
 				} 
@@ -487,25 +488,16 @@
 			var continueProcessing = this._trigger("showTextReadOnly", null, inp);
 			if (!continueProcessing) { return; }
 			
+			var plugin = this;
 			var overrideText = "";
 			var text = "";
 			if (type == "a") {
-				text = inp.text();
+				text = this._getTextForInput(inp, inp.text());
 			} else if (type == "text" || type == "textarea") {
-				text = inp.val();
+				text = this._getTextForInput(inp, inp.val());
 			} else if (type == "radio" || type == "checkbox") {
 				if (inp.attr("checked") != undefined) {
-					// check for data attribute specifying what to display when readonly
-					text = inp.attr(dataReadOnlyDisplay);
-					if (text == undefined) {
-						// no value specified. take value of element.
-						text = inp.val();
-					}
-					// Check if the parent container has the data attribute specifying what to display when readonly
-					overrideText = inp.parent().attr(dataReadOnlyDisplay);
-					if (overrideText != undefined) {
-						text = overrideText;
-					}
+					text = this._getTextForInput(inp, inp.val());
 				}				
 			} else if (type == "select") {
 				var options = [];
@@ -513,15 +505,12 @@
 				inp.find('option:selected').each(function(index) {
 					var option = $(this);
 					// check for data attribute specifying what to display when readonly
-					var optionText = option.attr(dataReadOnlyDisplay);
-					if (optionText == undefined) {
-						optionText = option.text();
-					}
+					var optionText = plugin._getTextForSelectOption(option);
 					options.push(optionText);
 				});
 				// return comma-delimeted list of text values
 				text = options.join(", ");
-			}  
+			}
 			
 			// wrap a SPAN around the input in order to find all elements affected by this operation
 			inp.wrap('<span class="' + classReadOnlyText + '"></span>');
@@ -536,6 +525,30 @@
 			
 			// hide the element
 			inp.hide();
+		},
+		
+		_getTextForInput : function(inp, elementText) {
+			// check for data attribute specifying what to display when readonly
+			var text = inp.attr(dataReadOnlyDisplay);
+			if (text == undefined) {
+				// no value specified. take text of element.
+				text = elementText;
+			}
+			// Check if the parent container has the data attribute specifying what to display when readonly
+			overrideText = inp.parent().attr(dataReadOnlyDisplay);
+			if (overrideText != undefined) {
+				text = overrideText;
+			}
+			return text;
+		},
+		
+		_getTextForSelectOption : function(option) {
+			// check for data attribute specifying what to display when readonly
+			var optionText = option.attr(dataReadOnlyDisplay);
+			if (optionText == undefined) {
+				optionText = option.text();
+			}
+			return optionText;
 		},
 		
 		_turnReadOnlyOff : function(inp) {
@@ -555,6 +568,8 @@
 					// unwrap the SPAN element put around the element by this plugin
 					var child = inp.children();
 					child.unwrap();
+					
+					this._enableEvents(child);
 					// show the previously hidden element
 					child.show();
 				}
@@ -593,7 +608,7 @@
 						inp.removeAttr("readonly");
 						inp.removeAttr("disabled");
 					} else {
-						this._enableLink(inp);
+						this._enableEvents(inp);
 					}
 				}
 			}
@@ -618,6 +633,7 @@
 					// unhide previously hidden elements
 					for (var i = 0; i < hiddenInputs.length; i++) {
 						var hiddenInput = hiddenInputs[i];
+						this._enableEvents(hiddenInput);
 						hiddenInput.show();
 						
 						this._trigger("processHiddenInputsNotReadOnlyIteration", null, {
