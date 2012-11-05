@@ -4,7 +4,7 @@
  * Version 1.0.0
  * 
  * API Documention:
- *   http://dougestep.com/jquery-disabler-widget 
+ *   http://dougestep.com/dme/jquery-disabler-widget 
  * 
  * Depends:
  *   jquery 1.7.1 +
