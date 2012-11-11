@@ -4,7 +4,7 @@
  * Version 1.0.0
  * 
  * API Documention:
- *   http://dougestep.com/jquery-disabler-widget 
+ *   http://dougestep.com/dme/jquery-disabler-widget 
  * 
  * Depends:
  *   jquery 1.7.1 +
@@ -450,7 +450,8 @@
 			if (!continueProcessing) { return; }
 			
 			if (inp.data("accordion") != undefined) {
-				inp.accordion("disable");
+				// accordion's are made up of li's and anchors, which get disabled as well
+				//inp.accordion("disable");
 			} else if (inp.data("progressbar") != undefined) {
 				inp.progressbar("disable");
 			} else if (inp.data("slider") != undefined) {
@@ -578,7 +579,7 @@
 				if (continueProcessing) { 
 					var type = this._whatTypeAmI(inp);
 					if (inp.data("accordion") != undefined) {
-						inp.accordion("enable");
+						//inp.accordion("enable");
 					} else if (inp.data("progressbar") != undefined) {
 						inp.progressbar("enable");
 					} else if (inp.data("slider") != undefined) {

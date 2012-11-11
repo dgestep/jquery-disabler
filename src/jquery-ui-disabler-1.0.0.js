@@ -35,166 +35,6 @@
 			readonly : false,
 			// the selector expression to use to search through the descendants of each element in the DOM tree 
 			expression : "*:not(.disabler-ignore-readonly)",
-			
-			/**
-			 * Event fired before the contents is disabled or enabled.
-			 * @param event null is always passed.
-			 * @param data an object containing the following values:
-			 * 	{
-			 * 		containerId: the ID representing the container to disable.
-			 * 		disabling If true, a disable transaction is about to occur. If false, a prior disable transaction is about to be reversed.  
-			 * 		element : this.element;
-			 * 	}
-			 * @return return true to continue with the function; false to not continue with the function.  
-			 */ 
-			beforeDisable : function(event, data) {
-				return true;
-			},
-			
-			/**
-			 * Event fired after the contents is disabled or enabled.
-			 * @param event null is always passed.
-			 * @param data an object containing the following values:
-			 * 	{
-			 * 		containerId: the ID representing the container to disable.
-			 * 		disabling If true, a disable transaction happened. If false, a prior disable transaction was reversed.  
-			 * 		element : this.element;
-			 * 	}
-			 */ 
-			afterDisable : function(event, data) {
-			},
-			
-			/**
-			 * Event fired before a container or input control has been set to read-only or undone from a previous read-only call.
-			 * @param event null is always passed.
-			 * @param data an object containing the following values:
-			 * 	{
-			 * 		containerId: the ID representing the container to set to read-only.
-			 * 		readOnlyFlag If true, the inputable columns were set to read-only. If false, a prior read-only function was reversed.
-			 * 		disabling true if the readOnly was invoked because of a disable; false if not.  
-			 * 		element : this.element;
-			 * 	}
-			 * @returns true to continue with the operation; false to cancel.
-			 */
-			beforeReadOnly : function(event, data) {
-				return true;
-			},
-			
-			/**
-			 * Event fired at the beginning of an iteration within the loop which is examining each input when doing 
-			 * a readOnly function.
-			 * @param event null is always passed.
-			 * @param data an object containing the following values:
-			 * 	{
-			 * 		input : the input control being examined.
-			 * 		index : the index within the loop. Starts with zero.
-			 * 		containerId: the ID representing the container to set to read-only.
-			 * 		readOnlyFlag If true, the inputable columns were set to read-only. If false, a prior read-only function was reversed.
-			 * 		disabling true if the readOnly was invoked because of a disable; false if not.  
-			 * 		element : this.element;
-			 * 	}
-			 * @returns true to continue with the operation; false to cancel.
-			 */
-			readOnlyIteration : function(event, data) {
-				return true;
-			},
-			
-			/**
-			 * Event fired on an input control when making the control read-only.
-			 * @param event null is always passed.
-			 * @param input the input control being set to read-only.
-			 * @returns true if the process should continue; false to not proceed any further with the supplied control.
-			 */
-			turnReadOnlyOn : function(event, input) {
-				return true;
-			},			
-			
-			/**
-			 * Event fired on an input control when undoing a prior read-only operation.
-			 * @param event null is always passed.
-			 * @param input the input control where the read-only operation is being undone.
-			 * @returns true if the process should continue; false to not proceed any further with the supplied control.
-			 */
-			turnReadOnlyOff : function(event, input) {
-				return true;
-			},
-			
-			/**
-			 * Event fired at the beginning of the process of displaying an input control as text.
-			 * @param event null is always passed.
-			 * @param input the input control being examined.
-			 * @returns true if the process should continue; false to not proceed any further with the supplied control.
-			 */
-			showTextReadOnly : function(event, input) {
-				return true;
-			},
-			
-			/**
-			 * Event fired at the beginning of the process of undoing a prior show-as-text operation.
-			 * @param event null is always passed.
-			 * @param input the input control being examined.
-			 * @returns true if the process should continue; false to not proceed any further with the supplied control.
-			 */
-			undoShowTextReadOnly : function(event, input) {
-				return true;
-			},
-			
-			/**
-			 * Event fired after a container or input control has been set to read-only or undone from a previous read-only call.
-			 * @param event null is always passed.
-			 * @param data an object containing the following values:
-			 * 	{
-			 * 		containerId: the ID representing the container to set to read-only.
-			 * 		readOnlyFlag If true, the inputable columns were set to read-only. If false, a prior read-only function was reversed.  
-			 * 		element : this.element;
-			 * 	}
-			 */ 
-			afterReadOnly : function(event, data) {
-			},
-			
-			/**
-			 * Event fired after all input controls that have been flagged to be hidden upon a read-only operation have been successfully hidden.
-			 * @param event null is always passed.
-			 * @param data an object containing the following values:
-			 * 	{
-			 * 		containerId: the ID representing the container which contains the input controls that have been hidden.  The ID has been properly escaped.
-			 * 		hiddenInput an array containing all input controls that have been hidden.  
-			 * 		element : this.element;
-			 * 	}
-			 */
-			processHiddenInputsReadOnly : function(event, data) {			
-			},
-			
-			/**
-			 * Event fired at the end of each iteration through all hidden input controls after the control as been unhidden.
-			 * @param event null is always passed.
-			 * @param data an object containing the following values:
-			 * 	{
-			 * 		containerId: the ID representing the container which contains the input controls to unhide.  The ID has been properly escaped.
-			 * 		hiddenInput an array containing all input controls that were previously hidden.  
-			 * 		element : this.element;
-			 * 	}
-			 */
-			processHiddenInputsNotReadOnlyIteration : function(event, data) {				
-			},
-						
-			/**
-			 * Event fired at the beginning of the process of disabling all events on the supplied input control.
-			 * @param event null is always passed.
-			 * @param input the input control being examined.
-			 * @returns true if the process should continue processing the disable events logic; false to not proceed any further with the supplied control.
-			 */
-			disableEvents : function(event, input) {
-			},
-			
-			/**
-			 * Event fired at the beginning of the process of enabling all previously disabled events on the supplied input control.
-			 * @param event null is always passed.
-			 * @param input the input control being examined.
-			 * @returns true if the process should continue processing the enable events logic; false to not proceed any further with the supplied control.
-			 */
-			enableEvents : function(event, input) {
-			}
 		},
 		
 		_create : function() {
@@ -282,23 +122,24 @@
 		
 		_doDisable : function(containerId, disabling) {
 			var escapedId = this._escape(containerId);
-			var continueDisable = this._trigger("beforeDisable", null, {
+			var bde = $.Event("beforeDisable");
+			this._trigger("beforeDisable", bde, {
 				'containerId' : escapedId,
 				'disabling' : disabling,
 				'element' : this.element
 			});
+			if (bde.isDefaultPrevented()) { return; }
 			
-			if (continueDisable) { 
-				this._readOnlyForDisable(containerId, disabling);
-				this.options.disable = disabling;
-				
-				this._trigger("afterDisable", null, {
-					'containerId' : escapedId,
-					'disabling' : disabling,
-					'element' : this.element
-				});
-				this.options.disable = disabling;
-			}
+			this._readOnlyForDisable(containerId, disabling);
+			this.options.disable = disabling;
+			
+			var ade = $.Event("afterDisable");
+			this._trigger("afterDisable", ade, {
+				'containerId' : escapedId,
+				'disabling' : disabling,
+				'element' : this.element
+			});
+			this.options.disable = disabling;
 		},
 		
 		_readOnlyForDisable : function(containerId, readOnlyFlag) {
@@ -337,13 +178,14 @@
 		
 		_doReadOnly : function(containerId, readOnlyFlag, disabling) {
 			var escapedId = this._escape(containerId);
-			var continueReadOnly = this._trigger("beforeReadOnly", null, {
+			var croe = $.Event("beforeReadOnly");
+			this._trigger("beforeReadOnly", croe, {
 				'containerId' : escapedId,
 				'readOnlyFlag' : readOnlyFlag,
 				'disabling' : disabling,
 				'element' : this.element
 			});
-			if (!continueReadOnly || readOnlyFlag == undefined) { return; }		
+			if (croe.isDefaultPrevented() || readOnlyFlag == undefined) { return; }		
 			
 			var hiddenInputs = [];
 			var selector = this._formatSelectorForContainerId(escapedId);
@@ -357,8 +199,9 @@
 				+ ", span." + classReadOnlyText
 				+ ", ." + classDisablerHideReadOnly;			
 			topElement.find(selector).each(function(index) {
-				var inp = $(this);
-				var continueIteration = plugin._trigger("readOnlyIteration", null, {
+				var inp = $(this);		
+				var roie = $.Event("readOnlyIteration");
+				plugin._trigger("readOnlyIteration", roie, {
 					'input' : inp,
 					'index' : index,
 					'containerId' : escapedId,
@@ -366,7 +209,7 @@
 					'disabling' : disabling,
 					'element' : plugin.element
 				});
-				if (!continueIteration) { return true; }
+				if (roie.isDefaultPrevented()) { return true; }
 				
 				var inputDisabler = inp.data("disabler");
 				if (inputDisabler != undefined) {
@@ -381,7 +224,8 @@
 			this.options.readonly = readOnlyFlag;
 			
 			// fire user event
-			this._trigger("afterReadOnly", null, {
+			var aroe = $.Event("afterReadOnly");
+			this._trigger("afterReadOnly", aroe, {
 				'containerId' : escapedId,
 				'readOnlyFlag' : readOnlyFlag,
 				'disabling' : disabling,
@@ -446,11 +290,13 @@
 				} 
 			}
 			
-			var continueProcessing = this._trigger("turnReadOnlyOn", null, inp);
-			if (!continueProcessing) { return; }
+			var trooe = $.Event("turnReadOnlyOn");
+			this._trigger("turnReadOnlyOn", trooe, inp);
+			if (trooe.isDefaultPrevented()) { return; }
 			
 			if (inp.data("accordion") != undefined) {
-				inp.accordion("disable");
+				// accordion's are made up of li's and anchors, which get disabled as well
+				//inp.accordion("disable");
 			} else if (inp.data("progressbar") != undefined) {
 				inp.progressbar("disable");
 			} else if (inp.data("slider") != undefined) {
@@ -485,8 +331,9 @@
 		},
 		
 		_showTextReadOnly : function(inp, type) {
-			var continueProcessing = this._trigger("showTextReadOnly", null, inp);
-			if (!continueProcessing) { return; }
+			var stroe = $.Event("showTextReadOnly");
+			this._trigger("showTextReadOnly", stroe, inp);
+			if (stroe.isDefaultPrevented()) { return; }
 			
 			var plugin = this;
 			var overrideText = "";
@@ -559,8 +406,9 @@
 			
 			inp.removeData(dataReadOnlyByDisabler);
 			if (inp.hasClass(classReadOnlyText)) {
-				var continueProcessing = this._trigger("undoShowTextReadOnly", null, inp);
-				if (continueProcessing) { 
+				var ustroe = $.Event("undoShowTextReadOnly");
+				this._trigger("undoShowTextReadOnly", ustroe, inp);
+				if (!ustroe.isDefaultPrevented()) { 
 					// remove the SPAN surrounding the text of the element being displayed
 					var span = inp.next('span.' + classReadOnlyRemoveMe);
 					span.remove();
@@ -574,11 +422,12 @@
 					child.show();
 				}
 			} else {
-				var continueProcessing = this._trigger("turnReadOnlyOff", null, inp);
-				if (continueProcessing) { 
+				var trooe = $.Event("turnReadOnlyOff");
+				this._trigger("turnReadOnlyOff", trooe, inp);
+				if (!trooe.isDefaultPrevented()) { 
 					var type = this._whatTypeAmI(inp);
 					if (inp.data("accordion") != undefined) {
-						inp.accordion("enable");
+						//inp.accordion("enable");
 					} else if (inp.data("progressbar") != undefined) {
 						inp.progressbar("enable");
 					} else if (inp.data("slider") != undefined) {
@@ -622,7 +471,8 @@
 					$("#" + escapedId).data(dataHiddenInputs, hiddenInputs);
 				}
 				
-				this._trigger("processHiddenInputsReadOnly", null, {
+				var phiroe = $.Event("processHiddenInputsReadOnly");
+				this._trigger("processHiddenInputsReadOnly", phiroe, {
 					'containerId' : escapedId,
 					'hiddenInput' : hiddenInput,
 					'element' : this.element
@@ -636,7 +486,8 @@
 						this._enableEvents(hiddenInput);
 						hiddenInput.show();
 						
-						this._trigger("processHiddenInputsNotReadOnlyIteration", null, {
+						var phinreie = $.Event("processHiddenInputsNotReadOnlyIteration");
+						this._trigger("processHiddenInputsNotReadOnlyIteration", phinreie, {
 							'containerId' : escapedId,
 							'hiddenInput' : hiddenInput,
 							'element' : this.element
@@ -668,16 +519,17 @@
 		},
 		
 		_disableEvents : function(inp) {
-			var continueProcessing = this._trigger("disableEvents", null, inp);
-			if (!continueProcessing) { return; }
+			var de = $.Event("disableEvents");
+			this._trigger("disableEvents", de, inp);
+			if (de.isDefaultPrevented()) { return; }
 			
+			var widgetEventPrefix = this.widgetEventPrefix;
 			// jQuery adds an "events" data attribute on the element when events are registered
 			var events = inp.data("events");
-			if (events != undefined) { 			
+			if (events != undefined) { 	
 				var savedEvents = [];
 				// loop through each event found on the element...
 				$.each(events, function(eventName, handlers) {
-					// on each event, loop through each handler
 				    $.each(handlers, function(index) {
 				    	var handler = handlers[index];
 				    	if (handler != undefined) {
@@ -686,15 +538,16 @@
 					    		'eventName' : eventName, 
 					    		'handler' : handler
 					    	};
-					    	savedEvents.push(eventObj);
+					    	if (eventName.indexOf(widgetEventPrefix) < 0) {
+					    		// unbinding a non widget event
+						    	savedEvents.push(eventObj);
+						    	inp.unbind(eventName);
+					    	}
 				    	}
 				    });
 				});
 				// store the saved events as a data attribute on the element
 				inp.data(dataSavedEvents, savedEvents);
-				
-				// unbind all events
-				inp.unbind();
 			}			
 		},
 		
@@ -716,8 +569,9 @@
 		},
 		
 		_enableEvents : function(inp) {
-			var continueProcessing = this._trigger("enableEvents", null, inp);
-			if (!continueProcessing) { return; }
+			var ee = $.Event("enableEvents");
+			this._trigger("enableEvents", ee, inp);
+			if (ee.isDefaultPrevented()) { return; }
 			
 			var savedEvents = inp.data(dataSavedEvents);
 			if (savedEvents != undefined) { 
