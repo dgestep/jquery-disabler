@@ -3,7 +3,7 @@
  * Author: Doug Estep.
  * Version 1.0.0
  * 
- * API Documention:
+ * API Documentation:
  *   http://dougestep.com/dme/jquery-disabler-widget 
  * 
  * Depends:
@@ -19,7 +19,7 @@
 	var classPanelsDatePicker = "panels-date-picker";
 	var classDisabled = "ui-state-disabled";
 	var classReadOnlyText = "disabler-read-only-text";
-	var classReadOnlyRemoveMe = "disabler-read-only-remove-me";
+	var classReadOnlyRemoveMe = "disabler-read-only-display-as-text";
 	var dataReadOnlyByDisabler = "disabler-read-only";
 	var dataHiddenInputs = "disabler-hidden-inputs";
 	var dataAnchorHref = "disabler-anchor-href";
@@ -34,7 +34,7 @@
 			// supply true to set all inputable columns within the plugin to read-only.
 			readonly : false,
 			// the selector expression to use to search through the descendants of each element in the DOM tree 
-			expression : "*:not(.disabler-ignore-readonly)",
+			expression : "*:not(.disabler-ignore-readonly)"
 		},
 		
 		_create : function() {
