@@ -1,6 +1,6 @@
 /*!
  * jQuery Disabler
- * Author: Doug Estep.
+ * Author: Doug Estep - Dayton Technology Group.
  * Version 1.0.0
  * 
  * API Documentation:
