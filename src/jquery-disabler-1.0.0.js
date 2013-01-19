@@ -9,6 +9,10 @@
  * Depends:
  *   jquery >= 1.7.0 
  *   jquery-ui widget factory >= 1.8.0 
+ *   
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
  */
 (function($, undefined) {
 	var classDisablerContainer = "hasDisabler";
