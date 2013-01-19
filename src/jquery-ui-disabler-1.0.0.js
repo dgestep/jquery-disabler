@@ -7,9 +7,8 @@
  *   http://dougestep.com/dme/jquery-disabler-widget 
  * 
  * Depends:
- *   jquery 1.7.1 +
- *   jquery-ui 1.8.20 using the following plugins.
- *     jQuery UI widget factory
+ *   jquery >= 1.7.0 
+ *   jquery-ui widget factory >= 1.8.0 
  */
 (function($, undefined) {
 	var classDisablerContainer = "hasDisabler";
