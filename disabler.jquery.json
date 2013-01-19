@@ -10,22 +10,22 @@
   "version": "1.0.0",
   "author": {
     "name": "Doug Estep",
-    "url": "https://github.com/jquery/jquery-disabler/blob/1.0.0/AUTHORS.txt"
+    "url": "https://github.com/dgestep/jquery-disabler/blob/1.0.0/AUTHORS.txt"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/jquery/jquery-disabler/blob/1.0.0/MIT-LICENSE.txt"
+      "url": "https://github.com/dgestep/jquery-disabler/blob/1.0.0/MIT-LICENSE.txt"
     },
     {
       "type": "GPL",
-      "url": "https://github.com/jquery/jquery-disabler/blob/1.0.0/GPL-LICENSE.txt"
+      "url": "https://github.com/dgestep/jquery-disabler/blob/1.0.0/GPL-LICENSE.txt"
     }
   ],
-  "bugs": "https://github.com/jquery/jquery-disabler/issues",
+  "bugs": "https://github.com/dgestep/jquery-disabler/issues",
   "homepage": "http://dougestep.com/dme/jquery-disabler-widget",
   "docs": "http://dougestep.com/dme/jquery-disabler-widget",
-  "download": "http://code.jquery.com/#disabler",
+  "download": "https://github.com/dgestep/jquery-disabler/tree/1.0.0/src",
   "dependencies": {
     "jquery": ">=1.7",
     "jquery ui widget factory": ">=1.8.0"
