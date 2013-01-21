@@ -451,7 +451,7 @@
 						} else if (type == "label") {
 							inp.removeClass(classDisabled)
 						} else {
-							inp.removeAttr("disabled", "true");
+							inp.removeAttr("disabled");
 						}
 					} else if (type == "select" || type=="checkbox" || type=="radio") {
 						this._enableEvents(inp);
