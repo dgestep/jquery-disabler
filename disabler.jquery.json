@@ -6,31 +6,30 @@
     "disable",
     "readonly",
     "read-only",
-    "read only",
     "content",
     "hide"
   ],
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": {
     "name": "Doug Estep",
-    "url": "https://github.com/dgestep",
-    "email": "douglas.estep@gmail.com"
+    "email": "douglas.estep@gmail.com",
+    "url": "https://github.com/dgestep"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/dgestep/jquery-disabler/blob/1.0.5/MIT-LICENSE.txt"
+      "url": "https://github.com/dgestep/jquery-disabler/blob/1.0.6/MIT-LICENSE.txt"
     },
     {
       "type": "GPL",
-      "url": "https://github.com/dgestep/jquery-disabler/blob/1.0.5/GPL-LICENSE.txt"
+      "url": "https://github.com/dgestep/jquery-disabler/blob/1.0.6/GPL-LICENSE.txt"
     }
   ],
   "bugs": "https://github.com/dgestep/jquery-disabler/issues",
   "homepage": "http://dougestep.com/dme/jquery-disabler-widget",
   "demo": "http://dougestep.com/dme/jquery-disabler-widget-demos",
   "docs": "http://dougestep.com/dme/jquery-disabler-widget",
-  "download": "https://github.com/dgestep/jquery-disabler/tree/1.0.5/src",
+  "download": "https://github.com/dgestep/jquery-disabler/tree/1.0.6/src",
   "dependencies": {
     "jquery": ">=1.7",
     "jquery ui widget factory": ">=1.8.0"
