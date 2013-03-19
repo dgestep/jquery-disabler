@@ -650,7 +650,7 @@
 				selector = '#' + panelId + ' ' + selector;
 			}
 			return selector + ' ';
-		},
+		}
 	});
 	
 	$.extend( $.dtg.disabler, {
