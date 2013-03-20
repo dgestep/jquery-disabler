@@ -1,7 +1,7 @@
 /*!
  * jQuery Disabler
  * Author: Doug Estep - Dayton Technology Group.
- * Version 1.0.0
+ * Version 1.0.7
  * 
  * API Documentation:
  *   http://dougestep.com/dme/jquery-disabler-widget 
@@ -654,6 +654,6 @@
 	});
 	
 	$.extend( $.dtg.disabler, {
-		version: "1.0.0"
+		version: "1.0.7"
 	});
 }(jQuery));
