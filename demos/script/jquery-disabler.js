@@ -1,7 +1,7 @@
 /*!
  * jQuery Disabler
  * Author: Doug Estep - Dayton Technology Group.
- * Version 1.0.8
+ * Version 1.0.9
  * 
  * API Documentation:
  *   http://dougestep.com/dme/jquery-disabler-widget 
@@ -405,7 +405,7 @@
 		_getTextForSelectOption : function(option) {
 			// check for data attribute specifying what to display when readonly
 			//var optionText = option.attr(dataReadOnlyDisplay);
-			var optionText = this._getAttribute(dataReadOnlyDisplay);
+			var optionText = this._getAttribute(option, dataReadOnlyDisplay);
 			if (optionText === undefined) {
 				optionText = option.text();
 			}
@@ -697,6 +697,6 @@
 	});
 	
 	$.extend( $.dtg.disabler, {
-		version: "1.0.8"
+		version: "1.0.9"
 	});
 }(jQuery));
