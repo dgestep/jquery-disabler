@@ -1,7 +1,7 @@
 /*!
  * jQuery Disabler
  * Author: Doug Estep - Dayton Technology Group.
- * Version 1.0.0
+ * Version 1.0.8
  * 
  * API Documentation:
  *   http://dougestep.com/dme/jquery-disabler-widget 
@@ -23,9 +23,9 @@
 	var classDisabled = "ui-state-disabled";
 	var classReadOnlyText = "disabler-read-only-text";
 	var classReadOnlyRemoveMe = "disabler-read-only-display-as-text";
-	var dataReadOnlyByDisabler = "disabler-read-only";
+	var dataReadOnlyByDisabler = "data-disabler-read-only";
 	var dataHiddenInputs = "disabler-hidden-inputs";
-	var dataAnchorHref = "disabler-anchor-href";
+	var dataAnchorHref = "data-disabler-anchor-href";
 	var dataSavedEvents = "disabler-saved-events";
 	var dataReadOnlyDisplay = "data-disabler-read-only-display";
 
@@ -64,7 +64,7 @@
 			var bool = false;
 			if (this._isNotNullAndNotUndefined(value)) {
 				var flag = new String(value).toLowerCase();
-				bool = flag == "true";
+				bool = flag === "true";
 			}
 			return bool;
 		},
@@ -90,7 +90,7 @@
 			}
 			if (this._isNotNullAndNotUndefined(id)) {
 				id = $.trim(id);
-				if (id.length == 0) {
+				if (id.length === 0) {
 					id = null;
 				}
 			}
@@ -173,7 +173,7 @@
 		},
 		
 		_defaultReadOnlyFlag : function(readOnlyFlag) {
-			if (readOnlyFlag == undefined) {
+			if (readOnlyFlag === undefined) {
 				readOnlyFlag = true;
 			}
 			return readOnlyFlag;
@@ -188,12 +188,12 @@
 				'disabling' : disabling,
 				'element' : this.element
 			});
-			if (croe.isDefaultPrevented() || readOnlyFlag == undefined) { return; }		
+			if (croe.isDefaultPrevented() || readOnlyFlag === undefined) { return; }		
 			
 			var hiddenInputs = [];
 			var selector = this._formatSelectorForContainerId(escapedId);
 			var topElement = $(selector);
-			if (topElement.length == 0) { return; }
+			if (topElement.length === 0) { return; }
 			
 			this._doReadOnlyIteration(topElement, readOnlyFlag, hiddenInputs, disabling);
 			
@@ -215,7 +215,7 @@
 				if (roie.isDefaultPrevented()) { return true; }
 				
 				var inputDisabler = inp.data("disabler");
-				if (inputDisabler != undefined) {
+				if (inputDisabler !== undefined) {
 					// Ignore this input because it has a disabler of it's own acting on it. 
 					return true;
 				}
@@ -238,8 +238,8 @@
 		
 		_whatTypeAmI : function(inp) {
 			var type = inp.attr("type");
-			if (type == undefined) {
-				if (inp[0] == undefined) {
+			if (type === undefined) {
+				if (inp[0] === undefined) {
 					type = "";
 				} else {
 					type = inp[0].tagName;
@@ -257,11 +257,15 @@
 		},
 		
 		_turnReadOnlyOn : function(inp, hiddenInputs, disabling) {
-			if (inp.data(dataReadOnlyByDisabler) != undefined) { 
+			if (this._hasAttribute(inp, dataReadOnlyByDisabler)) {
 				// this element has already been set to read-only by this plugin
 				return; 
 			}
-			if (inp.attr("readonly") != undefined || inp.attr("disabled") != undefined) { 
+			//if (inp.data(dataReadOnlyByDisabler) !== undefined) { 
+			//	// this element has already been set to read-only by this plugin
+			//	return; 
+			//}
+			if (inp.attr("readonly") !== undefined || inp.attr("disabled") !== undefined) { 
 				// this element is already read-only or disabled outside the control of this plugin
 				return; 
 			}
@@ -270,7 +274,8 @@
 				return; 
 			}
 			
-			inp.data(dataReadOnlyByDisabler, true);
+			this._setAttribute(inp, dataReadOnlyByDisabler, "true");
+			//inp.data(dataReadOnlyByDisabler, true);
 			if (inp.hasClass(classDisablerIgnoreReadOnly)) {
 				// marked to ignore
 				return;
@@ -297,37 +302,38 @@
 			this._trigger("turnReadOnlyOn", trooe, inp);
 			if (trooe.isDefaultPrevented()) { return; }
 			
-			if (inp.data("accordion") != undefined) {
+			if (inp.data("accordion") !== undefined) {
 				// accordion's are made up of li's and anchors, which get disabled as well
 				//inp.accordion("disable");
-			} else if (inp.data("progressbar") != undefined) {
+			} else if (inp.data("progressbar") !== undefined) {
 				inp.progressbar("disable");
-			} else if (inp.data("slider") != undefined) {
+			} else if (inp.data("slider") !== undefined) {
 				inp.slider("disable");
-			} else if (inp.data("spinner") != undefined) {
+			} else if (inp.data("spinner") !== undefined) {
 				inp.spinner("disable");
-			} else if (inp.data("tabs") != undefined) {
+			} else if (inp.data("tabs") !== undefined) {
 				inp.tabs("disable");
-			} else if (inp.data("menu") != undefined) {
+			} else if (inp.data("menu") !== undefined) {
 				inp.menu("disable");
 			} else if (inp.data("datapicker") || inp.hasClass(classPanelsDatePicker)) {
 				inp.datepicker("disable");
-			} else if (type == "a") {
+			} else if (type === "a") {
 				this._disableLink(inp);
-			} else if (type == "submit" || type=="button" || type=="label") {
+			} else if (type === "submit" || type=="button" || type=="label") {
 				if (inp.hasClass("ui-button")) {
 					inp.button("disable");
-				} else if (type == "label") {
-					inp.addClass(classDisabled)
+				} else if (type === "label") {
+					inp.addClass(classDisabled);
 				} else {
 					inp.attr("disabled", "true");
 				}
-			} else if (type == "select" || type=="checkbox" || type=="radio") {
+			} else if (type === "select" || type=="checkbox" || type=="radio") {
 				this._disableEvents(inp);
 				inp.attr("disabled", "true");
-			} else if (type == "text" || type == "textarea") {
+			} else if (type === "text" || type === "textarea") {
 				inp.attr("readonly", "readonly");
 				inp.attr("disabled", "true");
+				inp.addClass(classDisabled);
 			} else {
 				this._disableEvents(inp);
 			}
@@ -341,15 +347,15 @@
 			var plugin = this;
 			var overrideText = "";
 			var text = "";
-			if (type == "a") {
+			if (type === "a") {
 				text = this._getTextForInput(inp, inp.text());
-			} else if (type == "text" || type == "textarea") {
+			} else if (type === "text" || type === "textarea") {
 				text = this._getTextForInput(inp, inp.val());
-			} else if (type == "radio" || type == "checkbox") {
-				if (inp.attr("checked") != undefined) {
+			} else if (type === "radio" || type === "checkbox") {
+				if (inp.attr("checked") !== undefined) {
 					text = this._getTextForInput(inp, inp.val());
 				}				
-			} else if (type == "select") {
+			} else if (type === "select") {
 				var options = [];
 				// loop through SELECT options in the event of multiselect = true
 				inp.find('option:selected').each(function(index) {
@@ -364,11 +370,13 @@
 			
 			// wrap a SPAN around the input in order to find all elements affected by this operation
 			inp.wrap('<span class="' + classReadOnlyText + '"></span>');
-			inp.parent("span." + classReadOnlyText).data(dataReadOnlyByDisabler, true); 
+			
+			this._setAttribute(inp.parent("span." + classReadOnlyText), dataReadOnlyByDisabler, "true");
+			//inp.parent("span." + classReadOnlyText).data(dataReadOnlyByDisabler, true); 
 			
 			// wrap a SPAN around the text being displayed and place the SPAN beside the element.  This SPAN will be removed when this operation is undone.
 			var style = "";
-			if ($.trim(text).length == 0) {
+			if ($.trim(text).length === 0) {
 				style = "style=\"display: none; \"";
 			}
 			inp.parent().after('<span class="' + classReadOnlyRemoveMe + '" ' + style + '>' + text + '</span>');
@@ -379,14 +387,16 @@
 		
 		_getTextForInput : function(inp, elementText) {
 			// check for data attribute specifying what to display when readonly
-			var text = inp.attr(dataReadOnlyDisplay);
-			if (text == undefined) {
+			//var text = inp.attr(dataReadOnlyDisplay);
+			var text = this._getAttribute(inp, dataReadOnlyDisplay);
+			if (text === undefined) {
 				// no value specified. take text of element.
 				text = elementText;
 			}
 			// Check if the parent container has the data attribute specifying what to display when readonly
-			overrideText = inp.parent().attr(dataReadOnlyDisplay);
-			if (overrideText != undefined) {
+			//overrideText = inp.parent().attr(dataReadOnlyDisplay);
+			overrideText = this._getAttribute(inp.parent(), dataReadOnlyDisplay);
+			if (overrideText !== undefined) {
 				text = overrideText;
 			}
 			return text;
@@ -394,20 +404,26 @@
 		
 		_getTextForSelectOption : function(option) {
 			// check for data attribute specifying what to display when readonly
-			var optionText = option.attr(dataReadOnlyDisplay);
-			if (optionText == undefined) {
+			//var optionText = option.attr(dataReadOnlyDisplay);
+			var optionText = this._getAttribute(dataReadOnlyDisplay);
+			if (optionText === undefined) {
 				optionText = option.text();
 			}
 			return optionText;
 		},
 		
 		_turnReadOnlyOff : function(inp) {
-			if (inp.data(dataReadOnlyByDisabler) == undefined) { 
-				// if the element was set to read-only by this plugin, ignore
+			if (this._hasNoAttribute(inp, dataReadOnlyByDisabler)) {
+				// if the element was NOT set to read-only by this plugin, ignore
 				return; 
 			}
+			//if (inp.data(dataReadOnlyByDisabler) === undefined) { 
+			//	// if the element was NOT set to read-only by this plugin, ignore
+			//	return; 
+			//}
 			
-			inp.removeData(dataReadOnlyByDisabler);
+			this._removeAttribute(inp, dataReadOnlyByDisabler);
+			//inp.removeData(dataReadOnlyByDisabler);
 			if (inp.hasClass(classReadOnlyText)) {
 				var ustroe = $.Event("undoShowTextReadOnly");
 				this._trigger("undoShowTextReadOnly", ustroe, inp);
@@ -429,36 +445,37 @@
 				this._trigger("turnReadOnlyOff", trooe, inp);
 				if (!trooe.isDefaultPrevented()) { 
 					var type = this._whatTypeAmI(inp);
-					if (inp.data("accordion") != undefined) {
+					if (inp.data("accordion") !== undefined) {
 						//inp.accordion("enable");
-					} else if (inp.data("progressbar") != undefined) {
+					} else if (inp.data("progressbar") !== undefined) {
 						inp.progressbar("enable");
-					} else if (inp.data("slider") != undefined) {
+					} else if (inp.data("slider") !== undefined) {
 						inp.slider("enable");
-					} else if (inp.data("spinner") != undefined) {
+					} else if (inp.data("spinner") !== undefined) {
 						inp.spinner("enable");
-					} else if (inp.data("tabs") != undefined) {
+					} else if (inp.data("tabs") !== undefined) {
 						inp.tabs("enable");
-					} else if (inp.data("menu") != undefined) {
+					} else if (inp.data("menu") !== undefined) {
 						inp.menu("enable");
 					} else if (inp.data("datapicker") || inp.hasClass(classPanelsDatePicker)) {
 						inp.datepicker("enable");
-					} else if (type == "a") { 
+					} else if (type === "a") { 
 						this._enableLink(inp);
-					} else if (type == "submit" || type=="button" || type=="label") {
+					} else if (type === "submit" || type=="button" || type=="label") {
 						if (inp.hasClass("ui-button")) {
 							inp.button("enable");
-						} else if (type == "label") {
+						} else if (type === "label") {
 							inp.removeClass(classDisabled)
 						} else {
-							inp.removeAttr("disabled", "true");
+							inp.removeAttr("disabled");
 						}
-					} else if (type == "select" || type=="checkbox" || type=="radio") {
+					} else if (type === "select" || type=="checkbox" || type=="radio") {
 						this._enableEvents(inp);
 						inp.removeAttr("disabled");
-					} else if (type == "text" || type == "textarea") {
+					} else if (type === "text" || type === "textarea") {
 						inp.removeAttr("readonly");
 						inp.removeAttr("disabled");
+						inp.removeClass(classDisabled);
 					} else {
 						this._enableEvents(inp);
 					}
@@ -482,7 +499,7 @@
 				});
 			} else {
 				hiddenInputs = $("#" + escapedId).data(dataHiddenInputs);
-				if (hiddenInputs != undefined) {
+				if (hiddenInputs !== undefined) {
 					// unhide previously hidden elements
 					for (var i = 0; i < hiddenInputs.length; i++) {
 						var hiddenInput = hiddenInputs[i];
@@ -507,9 +524,10 @@
 			this._disableEvents(inp);
 			
 			var href = inp.attr("href");
-			if (href != undefined) {
+			if (href !== undefined) {
 				// save the HREF attribute value and remove the value
-				inp.data(dataAnchorHref, href);
+				this._setAttribute(inp, dataAnchorHref, href);
+				//inp.data(dataAnchorHref, href);
 				inp.attr("href", "#");
 			}
 			
@@ -529,13 +547,13 @@
 			var widgetEventPrefix = this.widgetEventPrefix;
 			// jQuery adds an "events" data attribute on the element when events are registered
 			var events = inp.data("events");
-			if (events != undefined) { 	
+			if (events !== undefined) { 	
 				var savedEvents = [];
 				// loop through each event found on the element...
 				$.each(events, function(eventName, handlers) {
 				    $.each(handlers, function(index) {
 				    	var handler = handlers[index];
-				    	if (handler != undefined) {
+				    	if (handler !== undefined) {
 				    		// save the event and handler
 					    	var eventObj = {
 					    		'eventName' : eventName, 
@@ -562,10 +580,12 @@
 			this._enableEvents(inp);
 			
 			// put back the HREF removed from the disableLink step
-			var href = inp.data(dataAnchorHref);
-			if (href != undefined) {
+			//var href = inp.data(dataAnchorHref);
+			var href = this._getAttribute(inp, dataAnchorHref);
+			if (href !== undefined) {
 				inp.attr("href", href);
-				inp.removeData(dataAnchorHref);
+				//inp.removeData(dataAnchorHref);
+				this._removeAttribute(inp, dataAnchorHref);
 			}
 			
 			inp.removeClass(classDisabled);
@@ -577,7 +597,7 @@
 			if (ee.isDefaultPrevented()) { return; }
 			
 			var savedEvents = inp.data(dataSavedEvents);
-			if (savedEvents != undefined) { 
+			if (savedEvents !== undefined) { 
 				// loop through each saved event and register events on element.
 				$.each(savedEvents, function(index) {
 					var savedEvent = savedEvents[index];
@@ -586,10 +606,12 @@
 					inp.on(eventName, handler); 
 				});
 			}
+			// remove the saved events from the input
+			inp.removeData(dataSavedEvents);
 		},
 		
 		_escape : function(containerId) {
-			if (containerId == undefined) {
+			if (containerId === undefined) {
 				containerId = this.element.attr("id");
 			}
 			return this._escapeValue(containerId);
@@ -628,32 +650,53 @@
 		},
 	
 		_isNotNullAndNotUndefined : function(obj) {
-			return obj != undefined && obj != null;
+			return obj !== undefined && obj != null;
 		},
 		
 		_isNullOrUndefined : function(obj) {
-			return obj == null || obj == undefined;
+			return obj === null || obj === undefined;
 		},
 		
 		_formatSelectorForContainerId : function(containerId) {
 			var panelId = this._escapeValue(this.element.attr("id"));
-			if (panelId == containerId) {
+			if (panelId === containerId) {
 				containerId = null;
 			}
 			var selector = '#' + containerId + ' ';
 			if (this._isNullOrUndefined(containerId)) {
 				selector = '';
 			}
-			if (selector == '') {
+			if (selector === '') {
 				selector = '#' + panelId;
 			} else {
 				selector = '#' + panelId + ' ' + selector;
 			}
 			return selector + ' ';
 		},
+		
+		_hasAttribute : function(inp, attrName) {
+			var attr = inp.attr(attrName);
+			return typeof attr !== 'undefined' && attr !== false;
+		},
+		
+		_hasNoAttribute : function(inp, attrName) {
+			return !this._hasAttribute(inp, attrName);
+		},
+		
+		_setAttribute : function(inp, attrName, attrValue) {
+			inp.attr(attrName, attrValue);
+		},
+		
+		_removeAttribute : function(inp, attrName) {
+			inp.removeAttr(attrName);
+		},
+		
+		_getAttribute : function(inp, attrName) {
+			return inp.attr(attrName);
+		}
 	});
 	
 	$.extend( $.dtg.disabler, {
-		version: "1.0.0"
+		version: "1.0.8"
 	});
 }(jQuery));
