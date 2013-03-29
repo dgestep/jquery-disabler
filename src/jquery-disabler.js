@@ -1,7 +1,7 @@
 /*!
  * jQuery Disabler
  * Author: Doug Estep - Dayton Technology Group.
- * Version 1.0.9
+ * Version 1.1.0
  * 
  * API Documentation:
  *   http://dougestep.com/dme/jquery-disabler-widget 
@@ -20,7 +20,6 @@
 	var classDisablerHideReadOnly = "disabler-hide-readonly";
 	var classDisablerShowTextReadOnly = "disabler-show-text-readonly";
 	var classPanelsDatePicker = "panels-date-picker";
-	var classDisabled = "ui-state-disabled";
 	var classReadOnlyText = "disabler-read-only-text";
 	var classReadOnlyRemoveMe = "disabler-read-only-display-as-text";
 	var dataReadOnlyByDisabler = "data-disabler-read-only";
@@ -37,7 +36,9 @@
 			// supply true to set all inputable columns within the plugin to read-only.
 			readonly : false,
 			// the selector expression to use to search through the descendants of each element in the DOM tree 
-			expression : "*:not(.disabler-ignore-readonly)"
+			expression : "*:not(.disabler-ignore-readonly)",
+			// the CSS class to assign to an element being disabled
+			disabledClass : "ui-state-disabled"
 		},
 		
 		_create : function() {
@@ -323,17 +324,18 @@
 				if (inp.hasClass("ui-button")) {
 					inp.button("disable");
 				} else if (type === "label") {
-					inp.addClass(classDisabled);
+					inp.addClass(this.options.disabledClass);
 				} else {
 					inp.attr("disabled", "true");
 				}
 			} else if (type === "select" || type=="checkbox" || type=="radio") {
 				this._disableEvents(inp);
 				inp.attr("disabled", "true");
+				inp.addClass(this.options.disabledClass);
 			} else if (type === "text" || type === "textarea") {
 				inp.attr("readonly", "readonly");
 				inp.attr("disabled", "true");
-				inp.addClass(classDisabled);
+				inp.addClass(this.options.disabledClass);
 			} else {
 				this._disableEvents(inp);
 			}
@@ -352,7 +354,7 @@
 			} else if (type === "text" || type === "textarea") {
 				text = this._getTextForInput(inp, inp.val());
 			} else if (type === "radio" || type === "checkbox") {
-				if (inp.attr("checked") !== undefined) {
+				if (inp.prop("checked")) {
 					text = this._getTextForInput(inp, inp.val());
 				}				
 			} else if (type === "select") {
@@ -465,17 +467,18 @@
 						if (inp.hasClass("ui-button")) {
 							inp.button("enable");
 						} else if (type === "label") {
-							inp.removeClass(classDisabled)
+							inp.removeClass(this.options.disabledClass)
 						} else {
 							inp.removeAttr("disabled");
 						}
 					} else if (type === "select" || type=="checkbox" || type=="radio") {
 						this._enableEvents(inp);
 						inp.removeAttr("disabled");
+						inp.removeClass(this.options.disabledClass);
 					} else if (type === "text" || type === "textarea") {
 						inp.removeAttr("readonly");
 						inp.removeAttr("disabled");
-						inp.removeClass(classDisabled);
+						inp.removeClass(this.options.disabledClass);
 					} else {
 						this._enableEvents(inp);
 					}
@@ -536,7 +539,7 @@
 				e.preventDefault();
 			});
 			
-			inp.addClass(classDisabled);
+			inp.addClass(this.options.disabledClass);
 		},
 		
 		_disableEvents : function(inp) {
@@ -588,7 +591,7 @@
 				this._removeAttribute(inp, dataAnchorHref);
 			}
 			
-			inp.removeClass(classDisabled);
+			inp.removeClass(this.options.disabledClass);
 		},
 		
 		_enableEvents : function(inp) {
@@ -697,6 +700,6 @@
 	});
 	
 	$.extend( $.dtg.disabler, {
-		version: "1.0.9"
+		version: "1.1.0"
 	});
 }(jQuery));
