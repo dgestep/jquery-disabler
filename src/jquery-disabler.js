@@ -298,25 +298,25 @@
 			this._trigger("turnReadOnlyOn", trooe, inp);
 			if (trooe.isDefaultPrevented()) { return; }
 			
-			if (inp.data("accordion") !== undefined) {
+			if (inp.data("ui-accordion") !== undefined) {
 				// accordion's are made up of li's and anchors, which get disabled as well
 				//inp.accordion("disable");
-			} else if (inp.data("progressbar") !== undefined) {
+			} else if (inp.data("ui-progressbar") !== undefined) {
 				inp.progressbar("disable");
-			} else if (inp.data("slider") !== undefined) {
+			} else if (inp.data("ui-slider") !== undefined) {
 				inp.slider("disable");
-			} else if (inp.data("spinner") !== undefined) {
+			} else if (inp.data("ui-spinner") !== undefined) {
 				inp.spinner("disable");
-			} else if (inp.data("tabs") !== undefined) {
+			} else if (inp.data("ui-tabs") !== undefined) {
 				inp.tabs("disable");
-			} else if (inp.data("menu") !== undefined) {
+			} else if (inp.data("ui-menu") !== undefined) {
 				inp.menu("disable");
-			} else if (inp.data("datapicker") || inp.hasClass(classPanelsDatePicker)) {
+			} else if (inp.data("ui-datapicker") || inp.hasClass(classPanelsDatePicker)) {
 				inp.datepicker("disable");
 			} else if (type === "a") {
 				this._disableLink(inp);
 			} else if (type === "submit" || type=="button" || type=="label") {
-				if (inp.hasClass("ui-button")) {
+				if (inp.hasClass("ui-button") && inp.data("ui-button")) {
 					inp.button("disable");
 				} else if (type === "label") {
 					inp.addClass(this.options.disabledClass);
@@ -432,24 +432,24 @@
 				this._trigger("turnReadOnlyOff", trooe, inp);
 				if (!trooe.isDefaultPrevented()) { 
 					var type = this._whatTypeAmI(inp);
-					if (inp.data("accordion") !== undefined) {
+					if (inp.data("ui-accordion") !== undefined) {
 						//inp.accordion("enable");
-					} else if (inp.data("progressbar") !== undefined) {
+					} else if (inp.data("ui-progressbar") !== undefined) {
 						inp.progressbar("enable");
-					} else if (inp.data("slider") !== undefined) {
+					} else if (inp.data("ui-slider") !== undefined) {
 						inp.slider("enable");
-					} else if (inp.data("spinner") !== undefined) {
+					} else if (inp.data("ui-spinner") !== undefined) {
 						inp.spinner("enable");
-					} else if (inp.data("tabs") !== undefined) {
+					} else if (inp.data("ui-tabs") !== undefined) {
 						inp.tabs("enable");
-					} else if (inp.data("menu") !== undefined) {
+					} else if (inp.data("ui-menu") !== undefined) {
 						inp.menu("enable");
-					} else if (inp.data("datapicker") || inp.hasClass(classPanelsDatePicker)) {
+					} else if (inp.data("ui-datapicker") || inp.hasClass(classPanelsDatePicker)) {
 						inp.datepicker("enable");
 					} else if (type === "a") { 
 						this._enableLink(inp);
 					} else if (type === "submit" || type=="button" || type=="label") {
-						if (inp.hasClass("ui-button")) {
+						if (inp.hasClass("ui-button") && inp.data("ui-button")) {
 							inp.button("enable");
 						} else if (type === "label") {
 							inp.removeClass(this.options.disabledClass)
