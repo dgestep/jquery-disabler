@@ -1,7 +1,7 @@
 /*!
  * jQuery Disabler
  * Author: Doug Estep - Dayton Technology Group.
- * Version 1.1.0
+ * Version 1.1.1
  * 
  * API Documentation:
  *   http://dougestep.com/dme/jquery-disabler-widget 
@@ -262,10 +262,6 @@
 				// this element has already been set to read-only by this plugin
 				return; 
 			}
-			//if (inp.data(dataReadOnlyByDisabler) !== undefined) { 
-			//	// this element has already been set to read-only by this plugin
-			//	return; 
-			//}
 			if (inp.attr("readonly") !== undefined || inp.attr("disabled") !== undefined) { 
 				// this element is already read-only or disabled outside the control of this plugin
 				return; 
@@ -276,7 +272,6 @@
 			}
 			
 			this._setAttribute(inp, dataReadOnlyByDisabler, "true");
-			//inp.data(dataReadOnlyByDisabler, true);
 			if (inp.hasClass(classDisablerIgnoreReadOnly)) {
 				// marked to ignore
 				return;
@@ -374,7 +369,6 @@
 			inp.wrap('<span class="' + classReadOnlyText + '"></span>');
 			
 			this._setAttribute(inp.parent("span." + classReadOnlyText), dataReadOnlyByDisabler, "true");
-			//inp.parent("span." + classReadOnlyText).data(dataReadOnlyByDisabler, true); 
 			
 			// wrap a SPAN around the text being displayed and place the SPAN beside the element.  This SPAN will be removed when this operation is undone.
 			var style = "";
@@ -389,14 +383,12 @@
 		
 		_getTextForInput : function(inp, elementText) {
 			// check for data attribute specifying what to display when readonly
-			//var text = inp.attr(dataReadOnlyDisplay);
 			var text = this._getAttribute(inp, dataReadOnlyDisplay);
 			if (text === undefined) {
 				// no value specified. take text of element.
 				text = elementText;
 			}
 			// Check if the parent container has the data attribute specifying what to display when readonly
-			//overrideText = inp.parent().attr(dataReadOnlyDisplay);
 			overrideText = this._getAttribute(inp.parent(), dataReadOnlyDisplay);
 			if (overrideText !== undefined) {
 				text = overrideText;
@@ -406,7 +398,6 @@
 		
 		_getTextForSelectOption : function(option) {
 			// check for data attribute specifying what to display when readonly
-			//var optionText = option.attr(dataReadOnlyDisplay);
 			var optionText = this._getAttribute(option, dataReadOnlyDisplay);
 			if (optionText === undefined) {
 				optionText = option.text();
@@ -419,13 +410,8 @@
 				// if the element was NOT set to read-only by this plugin, ignore
 				return; 
 			}
-			//if (inp.data(dataReadOnlyByDisabler) === undefined) { 
-			//	// if the element was NOT set to read-only by this plugin, ignore
-			//	return; 
-			//}
 			
 			this._removeAttribute(inp, dataReadOnlyByDisabler);
-			//inp.removeData(dataReadOnlyByDisabler);
 			if (inp.hasClass(classReadOnlyText)) {
 				var ustroe = $.Event("undoShowTextReadOnly");
 				this._trigger("undoShowTextReadOnly", ustroe, inp);
@@ -438,7 +424,6 @@
 					var child = inp.children();
 					child.unwrap();
 					
-					this._enableEvents(child);
 					// show the previously hidden element
 					child.show();
 				}
@@ -530,7 +515,6 @@
 			if (href !== undefined) {
 				// save the HREF attribute value and remove the value
 				this._setAttribute(inp, dataAnchorHref, href);
-				//inp.data(dataAnchorHref, href);
 				inp.attr("href", "#");
 			}
 			
@@ -548,8 +532,10 @@
 			if (de.isDefaultPrevented()) { return; }
 			
 			var widgetEventPrefix = this.widgetEventPrefix;
-			// jQuery adds an "events" data attribute on the element when events are registered
 			var events = inp.data("events");
+			if (events === undefined) {
+				events = $._data(inp[0], "events");
+			}
 			if (events !== undefined) { 	
 				var savedEvents = [];
 				// loop through each event found on the element...
@@ -583,11 +569,9 @@
 			this._enableEvents(inp);
 			
 			// put back the HREF removed from the disableLink step
-			//var href = inp.data(dataAnchorHref);
 			var href = this._getAttribute(inp, dataAnchorHref);
 			if (href !== undefined) {
 				inp.attr("href", href);
-				//inp.removeData(dataAnchorHref);
 				this._removeAttribute(inp, dataAnchorHref);
 			}
 			
@@ -700,6 +684,6 @@
 	});
 	
 	$.extend( $.dtg.disabler, {
-		version: "1.1.0"
+		version: "1.1.1"
 	});
 }(jQuery));
